@@ -94,7 +94,7 @@ class Visits
 		
 		// add session/server specifics
 		$visit->session_id = $this->session->session_id;
-		$visit->user_id = $this->session->userId ?? null;
+		$visit->user_id = $this->session->{$this->config->userSource} ?? null;
 		$visit->user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 		$visit->ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
 		
