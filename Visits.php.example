@@ -15,7 +15,7 @@ class Visits extends BaseConfig
 {
 	// metric for tracking a unique visitor
 	// one of: ip_address, session_id, user_id
-	public $trackingMethod  = "session_id";
+	public $trackingMethod  = "ip_address";
 	
 	// the session variable to check for a logged-in user ID
 	public $userSource = 'visitsUserId';
