@@ -112,7 +112,7 @@ class Visits
 	}
 	
 	// search for a visit with similar characteristics to an existing one
-	protected function similar(Entities\Visit $visit)
+	protected function similar(Visit $visit)
 	{
 		// required fields
 		if (empty($visit->host) || empty($visit->path))
