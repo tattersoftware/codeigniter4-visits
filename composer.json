@@ -1,14 +1,14 @@
 {
-	"name": "tatter/alerts",
-	"description": "Lightweight user alerts for CodeIgniter 4",
+	"name": "tatter/visits",
+	"description": "Lightweight traffic tracking for CodeIgniter 4",
 	"keywords": [
 		"codeigniter",
 		"codeigniter4",
-		"alerts",
-		"dialogs",
-		"messages"
+		"traffic",
+		"visits",
+		"analytics"
 	],
-	"homepage": "https://github.com/tattersoftware/codeigniter4-alerts",
+	"homepage": "https://github.com/tattersoftware/codeigniter4-visits",
 	"license": "MIT",
 	"authors": [
 		{

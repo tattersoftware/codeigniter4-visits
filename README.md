@@ -1,47 +1,54 @@
-# Tatter\Alerts
-Lightweight user alerts for CodeIgniter 4
-
-![Screenshot1](https://github.com/tattersoftware/codeigniter4-alerts/blob/master/img/screenshot1.png)
-
+# Tatter\Visits
+Lightweight traffic tracking for CodeIgniter 4
 
 ## Quick Start
 
-1. Run: `> composer require tatter/alerts`
-2. Load the helper: `helper("tatter\alerts");`
-2. Set an alert: `alert('success', "You did it!")`
-3. Add in head tag (optional): `<?= alertsCss(); ?>`
-4. Add after banner/menu: `<?= alerts(); ?>`
+1. Run: `> composer require tatter/visits`
+2. Load the service: `$visits = Services::('visits')`
+3. Record the visit: `$visits->record();`
 
 ## Features
 
-Provides out-of-the-box user alerts for CodeIgniter 4
+Provides automated traffic tracking for CodeIgniter 4
 
 ## Installation
 
 Install easily via Composer to take advantage of CodeIgniter 4's autoloading capabilities
 and always be up-to-date:
-`> composer require tatter/alerts`
+`> composer require tatter/visits`
 
-Or, install manually by downloading the source files and copying them into CodeIgniter 4's
-app/ same subdirectories.
+Or, install manually by downloading the source files and adding the directory to
+`app/Config/Autoload.php`.
+
+Once the files are downloaded and included in the autoload, run any library migrations
+to ensure the database is setup correctly:
+`> php spark migrate:latest -n Tatter`
 
 ## Configuration (optional)
 
-The library's default behavior can be overridden or augment by its config file. Copy
-src/Config/Alerts.php.example to app/Config/Alerts.php and follow the instructions in the
-comments. If no config file is found the library will use its defaults.
+The library's default behavior can be altered by extending its config file. Copy
+src/Config/Visits.php.example to app/Config/Visits.php and follow the instructions in the
+comments. If no config file is found in app/Config the library will use its own.
 
 ## Usage
 
-If installed correctly CodeIgniter 4 will detect and autoload the library, helper, and
-(optional) config. Initialize the helper before using its functions:
-`helper("tatter\alerts");`
+If installed correctly CodeIgniter 4 will detect and autoload the library, service, and
+config. Get an instance of the service:
+`$visits = Services::('visits');`
+Then use the `record` method to log the current visit:
+`$visits->record();`
+Recommended usage would be to include both these steps in `BaseController`, in the
+`initController` method, so it is run on every load.
 
-Then use the helper function `alert($class, $text)` to set an alert for the user's next
-view. Use helper functions `alertCss()` and `alerts()` to retrieve the styling and HTML
-for the alerts.
+## Accessing data
 
-## Styles
+This library provides a `VisitModel` and a `Visit` entity for convenient access to recorded
+entries. Feel free to extend these classes for any additional functionality.
 
-By default alerts will be displayed with classes for Bootstrap. Styles can be changed
-to other toolkits (or may use your own) by altering the settings in the config file.
+## User tracking
+
+It is not legal nor advisable to track user traffic in all cases. By default `Visits` will
+only include user IDs when they are loaded into the specific session variable
+`visitsUserId`. If this session variable is not set access will be anonymous. You can
+change the variable used to determine a logged in user by using the Config file and
+altering the value (see above).
