@@ -6,22 +6,21 @@
 * Contact: mgatner@tattersoftware.com
 * Created: 2019-02-12
 *
-* Description:  Lightweight traffic tracking library for CodeIgniter 4
+* Description:  Lightweight traffic tracking for CodeIgniter 4
 *
 * Requirements:
 * 	>= PHP 7.1
 * 	>= CodeIgniter 4.0
 *	Preconfigured, autoloaded Database
 *	CodeIgniter's URL helper (loaded automatically)
-*	Function userId() to return ID of logged in user
 *	Visits table (run migrations)
 *
 * Configuration:
-* 	Use Config/Visits.php to override default behavior
+* 	Use app/Config/Visits.php to override default behavior
 * 	Run migrations to update database tables:
-* 		> php spark migrate:latest -n Tatter
+* 		> php spark migrate:latest -n "Tatter\Visits"
 *
-* @package CodeIgniter4-Assets
+* @package CodeIgniter4-Visits
 * @author Matthew Gatner
 * @link https://github.com/tattersoftware/codeigniter4-visits
 *
