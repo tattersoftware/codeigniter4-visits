@@ -1,4 +1,4 @@
-<?php namespace Tatter;
+<?php namespace Tatter\Visits;
 
 /***
 * Name: Visits
@@ -29,7 +29,7 @@
 
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Config\Services;
-use Tatter\Entities\Visit;
+use Tatter\Visits\Entities\Visit;
 use Tatter\Visits\Models\VisitModel;
 use Tatter\Visits\Exceptions\VisitsException;
 
