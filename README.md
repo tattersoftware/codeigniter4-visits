@@ -3,10 +3,9 @@ Lightweight traffic tracking for CodeIgniter 4
 
 ## Quick Start
 
-1. Run: `> composer require tatter/visits`
+1. Install with Composer: `> composer require tatter/visits`
 2. Update the database: `> php spark migrate:latest -n Tatter`
-3. Load the service: `$visits = Services::('visits')`
-4. Record the visit: `$visits->record();`
+4. Add to controller: `service('visits')->record();`
 
 ## Features
 
@@ -48,12 +47,10 @@ comments. If no config file is found in app/Config the library will use its own.
 ## Usage
 
 If installed correctly CodeIgniter 4 will detect and autoload the class, service, and
-config. Get an instance of the service:
-`$visits = Services::('visits');`
-Then use the `record` method to log the current visit:
-`$visits->record();`
-**Recommended:** Include both these steps in `BaseController` in the
-`initController()` method so traffic is recorded on every load.
+config. Use the service to load the class and record the current visit:
+`service('visits')->record();`
+**Recommended:** Include this steps in `BaseController` in the `initController()`
+method so traffic is recorded on every page load.
 
 ## Accessing data
 
