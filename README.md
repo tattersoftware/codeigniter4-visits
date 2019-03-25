@@ -15,14 +15,14 @@ Provides automated traffic tracking for CodeIgniter 4
 
 Install easily via Composer to take advantage of CodeIgniter 4's autoloading capabilities
 and always be up-to-date:
-`> composer require tatter/visits`
+* `> composer require tatter/visits`
 
 Or, install manually by downloading the source files and adding the directory to
 `app/Config/Autoload.php`.
 
 Once the files are downloaded and included in the autoload, run any library migrations
 to ensure the database is setup correctly:
-`> php spark migrate:latest -n Tatter`
+* `> php spark migrate:latest -n Tatter`
 
 **Pro Tip:** You can add the spark command to your composer.json to ensure your database is
 always current with the latest release:
@@ -48,8 +48,9 @@ comments. If no config file is found in app/Config the library will use its own.
 
 If installed correctly CodeIgniter 4 will detect and autoload the class, service, and
 config. Use the service to load the class and record the current visit:
-`service('visits')->record();`
-**Recommended:** Include this steps in `BaseController` in the `initController()`
+* `service('visits')->record();`
+
+**Recommended:** Include this step in `BaseController` in the `initController()`
 method so traffic is recorded on every page load.
 
 ## Accessing data
