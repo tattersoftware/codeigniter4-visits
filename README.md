@@ -50,7 +50,7 @@ If installed correctly CodeIgniter 4 will detect and autoload the class, service
 config. Use the service to load the class and record the current visit:
 * `service('visits')->record();`
 
-**Recommended:** Include this step in `BaseController` in the `initController()`
+**Recommended:** Include this line in `BaseController` in the `initController()`
 method so traffic is recorded on every page load.
 
 ## Accessing data

@@ -26,7 +26,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Tatter\\": "src"
+			"Tatter\\Visits\\": "src"
 		}
 	},
 	"scripts": {

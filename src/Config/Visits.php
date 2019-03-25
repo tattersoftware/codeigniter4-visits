@@ -1,4 +1,4 @@
-<?php namespace Tatter\Config;
+<?php namespace Tatter\Visits\Config;
 
 use CodeIgniter\Config\BaseConfig;
 

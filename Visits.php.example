@@ -15,7 +15,7 @@
 
 use CodeIgniter\Config\BaseConfig;
 
-class Visits extends BaseConfig
+class Visits extends Tatter\Visits\Config
 {
 	// metric for tracking a unique visitor, one of: ip_address, session_id, user_id
 	// NOTE: using user_id will count empty $userSource values as unique visits

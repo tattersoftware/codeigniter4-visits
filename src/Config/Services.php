@@ -1,4 +1,4 @@
-<?php namespace Tatter\Config;
+<?php namespace Tatter\Visits\Config;
 
 use CodeIgniter\Config\BaseService;
 
@@ -15,10 +15,10 @@ class Services extends BaseService
 			if (class_exists('\Config\Visits')):
 				$config = new \Config\Visits();
 			else:
-				$config = new \Tatter\Config\Visits();
+				$config = new \Tatter\Visits\Config\Visits();
 			endif;
 		endif;
 
-		return new \Tatter\Visits($config);
+		return new \Tatter\Visits\Visits($config);
 	}
 }

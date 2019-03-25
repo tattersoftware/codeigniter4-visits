@@ -1,4 +1,4 @@
-<?php namespace Tatter\Database\Migrations;
+<?php namespace Tatter\Visits\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 

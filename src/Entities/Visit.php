@@ -1,7 +1,7 @@
-<?php namespace Tatter\Entities;
+<?php namespace Tatter\Visits\Entities;
 
 use CodeIgniter\Entity;
-use Tatter\Models\VisitModel;
+use Tatter\Visits\Models\VisitModel;
 
 class Visit extends Entity
 {

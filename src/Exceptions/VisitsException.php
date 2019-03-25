@@ -1,4 +1,4 @@
-<?php namespace Tatter\Exceptions;
+<?php namespace Tatter\Visits\Exceptions;
 
 use CodeIgniter\Exceptions\ExceptionInterface;
 use CodeIgniter\Exceptions\FrameworkException;

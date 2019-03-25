@@ -30,8 +30,8 @@
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Config\Services;
 use Tatter\Entities\Visit;
-use Tatter\Models\VisitModel;
-use Tatter\Exceptions\VisitsException;
+use Tatter\Visits\Models\VisitModel;
+use Tatter\Visits\Exceptions\VisitsException;
 
 /*** CLASS ***/
 class Visits
@@ -39,7 +39,7 @@ class Visits
 	/**
 	 * Our configuration instance.
 	 *
-	 * @var \Tatter\Config\Visits
+	 * @var \Tatter\Visits\Config\Visits
 	 */
 	protected $config;
 

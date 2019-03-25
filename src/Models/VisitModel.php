@@ -1,4 +1,4 @@
-<?php namespace Tatter\Models;
+<?php namespace Tatter\Visits\Models;
 
 use CodeIgniter\Model;
 
@@ -7,7 +7,7 @@ class VisitModel extends Model
 	protected $table      = 'visits';
 	protected $primaryKey = 'id';
 
-	protected $returnType = 'Tatter\Entities\Visit';
+	protected $returnType = 'Tatter\Visits\Entities\Visit';
 	protected $useSoftDeletes = false;
 
 	protected $allowedFields = [
