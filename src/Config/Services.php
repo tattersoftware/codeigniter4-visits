@@ -6,16 +6,19 @@ class Services extends BaseService
 {
     public static function visits(BaseConfig $config = null, bool $getShared = true)
     {
-		if ($getShared)
-		{
+		if ($getShared):
 			return static::getSharedInstance('visits', $config);
-		}
+		endif;
 
-		if (empty($config))
-		{
-			$config = new \Config\Visits();
-		}
+		// prioritizes user config in app/Config if found
+		if (empty($config)):
+			if (class_exists('\Config\Visits')):
+				$config = new \Config\Visits();
+			else:
+				$config = new \Tatter\Config\Visits();
+			endif;
+		endif;
 
-		return new \Tatter\Libraries\Visits($config);
+		return new \Tatter\Visits($config);
 	}
 }

@@ -1,6 +1,7 @@
 <?php namespace Tatter\Entities;
 
 use CodeIgniter\Entity;
+use Tatter\Models\VisitModel;
 
 class Visit extends Entity
 {
@@ -63,5 +64,29 @@ class Visit extends Entity
 		$this->created_at->setTimezone($timezone);
 
 		return $this->created_at->format($format);
+	}
+	
+	// search for a visit with similar characteristics to the current one
+	public function getSimilar($trackingMethod, $resetMinutes = 60)
+	{
+		// required fields
+		if (empty($this->host) || empty($this->path))
+			return false;
+		// require tracking field
+		if (empty($this->{$trackingMethod}))
+			return false;
+
+		$visits = new VisitModel();		
+
+		// check for matching components within the last resetMinutes
+		$since = date("Y-m-d H:i:s", strtotime("-" . $resetMinutes . " minutes"));
+		$similar = $visits->where('host', $this->host)
+		                  ->where('path', $this->path)
+		                  ->where('query', (string)$this->query)
+		                  ->where($trackingMethod, $this->{$trackingMethod})
+		                  ->where("created_at >=", $since)
+		                  ->first();
+
+		return $similar;
 	}
 }
