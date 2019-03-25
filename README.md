@@ -25,6 +25,20 @@ Once the files are downloaded and included in the autoload, run any library migr
 to ensure the database is setup correctly:
 `> php spark migrate:latest -n Tatter`
 
+**Pro Tip:** You can add the spark command to your composer.json to ensure your database is
+always current with the latest release:
+```
+{
+	...
+    "scripts": {
+        "post-update-cmd": [
+            "composer dump-autoload",
+            "php spark migrate:latest -all"
+        ]
+    },
+	...
+```
+
 ## Configuration (optional)
 
 The library's default behavior can be altered by extending its config file. Copy
