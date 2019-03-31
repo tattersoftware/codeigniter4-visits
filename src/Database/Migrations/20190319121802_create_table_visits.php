@@ -30,7 +30,7 @@ class Migration_create_table_visits extends Migration
 		$this->forge->addKey('session_id');
 		$this->forge->addKey('user_id');
 		$this->forge->addKey('ip_address');
-		$this->forge->addKey(['host', 'path', 'query']);
+		$this->forge->addKey(['host', 'path']);
 		$this->forge->addKey('created_at');
 		$this->forge->addKey('updated_at');
 		
