@@ -10,15 +10,15 @@ class Visit extends Entity
 	protected $user_id;
 	protected $ip_address;
 	protected $user_agent;
-	protected $scheme;
+	protected $scheme = '';
 	protected $host;
-	protected $port;
-	protected $user;
-	protected $pass;
+	protected $port = '';
+	protected $user = '';
+	protected $pass = '';
 	protected $path;
-	protected $query;
-	protected $fragment;
-	protected $views;
+	protected $query = '';
+	protected $fragment = '';
+	protected $views = 0;
 	protected $created_at;
 	protected $updated_at;
 	
