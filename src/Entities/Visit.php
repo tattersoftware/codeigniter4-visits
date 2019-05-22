@@ -4,29 +4,8 @@ use CodeIgniter\Entity;
 use Tatter\Visits\Models\VisitModel;
 
 class Visit extends Entity
-{
-	protected $id;
-	protected $session_id;
-	protected $user_id;
-	protected $ip_address;
-	protected $user_agent;
-	protected $scheme = '';
-	protected $host;
-	protected $port = '';
-	protected $user = '';
-	protected $pass = '';
-	protected $path;
-	protected $query = '';
-	protected $fragment = '';
-	protected $views = 0;
-	protected $created_at;
-	protected $updated_at;
-	
-	protected $_options = [
-		'dates' => ['created_at', 'verified_at'],
-		'casts' => [ ],
-		'datamap' => [ ]
-	];
+{	
+	protected $dates = ['created_at', 'verified_at'];
 	
 	// magic IP string/long converters
 	public function setIpAddress($ipAddress)
