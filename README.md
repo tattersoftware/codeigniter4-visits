@@ -41,7 +41,7 @@ always current with the latest release:
 ## Configuration (optional)
 
 The library's default behavior can be altered by extending its config file. Copy
-Visits.php.example to app/Config/Visits.php and follow the instructions in the
+**bin/Visits.php** to **app/Config/** and follow the instructions in the
 comments. If no config file is found in app/Config the library will use its own.
 
 ## Usage
