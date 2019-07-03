@@ -31,7 +31,8 @@
 	},
 	"scripts": {
 		"post-update-cmd": [
-			"composer dump-autoload"
+			"composer dump-autoload",
+			"php spark migrate:latest -n all"
 		]
 	}
 }
