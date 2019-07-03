@@ -10,14 +10,10 @@ class Services extends BaseService
 			return static::getSharedInstance('visits', $config);
 		endif;
 
-		// prioritizes user config in app/Config if found
-		if (empty($config)):
-			if (class_exists('\Config\Visits')):
-				$config = new \Config\Visits();
-			else:
-				$config = new \Tatter\Visits\Config\Visits();
-			endif;
-		endif;
+		// If no config was injected then load one
+		// Prioritizes app/Config if found
+		if (empty($config))
+			$config = config('Visits');
 
 		return new \Tatter\Visits\Visits($config);
 	}
