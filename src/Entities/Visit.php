@@ -11,18 +11,18 @@ class Visit extends Entity
 	public function setIpAddress($ipAddress)
 	{
 		if ($long = ip2long($ipAddress))
-			$this->ip_address = $long;
+			$this->attributes['ip_address'] = $long;
 		else
-			$this->ip_address = $ipAddress;
+			$this->attributes['ip_address'] = $ipAddress;
 		return $this;
 	}
 
 	public function getIpAddress(string $format = 'long')
 	{
 		if ($format=="string")
-			return long2ip($this->ip_address);
+			return long2ip($this->attributes['ip_address']);
 		else
-			return $this->ip_address;
+			return $this->attributes['ip_address'];
 	}
 	
 	// magic timezone helpers
@@ -36,13 +36,13 @@ class Visit extends Entity
 	public function getCreatedAt(string $format = 'Y-m-d H:i:s')
 	{
 		// Convert to CodeIgniter\I18n\Time object
-		$this->created_at = $this->mutateDate($this->created_at);
+		$this->attributes['created_at'] = $this->mutateDate($this->created_at);
 
 		$timezone = $this->timezone ?? app_timezone();
 
-		$this->created_at->setTimezone($timezone);
+		$this->attributes['created_at']->setTimezone($timezone);
 
-		return $this->created_at->format($format);
+		return $this->attributes['created_at']->format($format);
 	}
 	
 	// search for a visit with similar characteristics to the current one
@@ -60,11 +60,11 @@ class Visit extends Entity
 		// check for matching components within the last resetMinutes
 		$since = date("Y-m-d H:i:s", strtotime("-" . $resetMinutes . " minutes"));
 		$similar = $visits->where('host', $this->host)
-		                  ->where('path', $this->path)
-		                  ->where('query', (string)$this->query)
-		                  ->where($trackingMethod, $this->{$trackingMethod})
-		                  ->where("created_at >=", $since)
-		                  ->first();
+			->where('path', $this->path)
+			->where('query', (string)$this->query)
+			->where($trackingMethod, $this->{$trackingMethod})
+			->where("created_at >=", $since)
+			->first();
 
 		return $similar;
 	}
