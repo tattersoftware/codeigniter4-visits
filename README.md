@@ -62,6 +62,6 @@ entries. Feel free to extend these classes for any additional functionality.
 
 It is not legal nor advisable to track user traffic in all cases. By default `Visits` will
 only include user IDs when they are loaded into the specific session variable
-`visitsUserId`. If this session variable is not set access will be anonymous. You can
+`logged_in`. If this session variable is not set access will be anonymous. You can
 change the variable used to determine a logged in user by using the Config file and
 altering the value (see above).

@@ -22,7 +22,7 @@ class Visits extends \Tatter\Visits\Config\Visits
 	public $trackingMethod  = "ip_address";
 	
 	// the session variable to check for a logged-in user ID
-	public $userSource = 'visitsUserId';
+	public $userSource = 'logged_in';
 	
 	// how many minutes before a visit counts as new instead of incrementing a previous view count
 	// set to zero to record each visit as its own page view (not recommended)

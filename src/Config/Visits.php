@@ -9,7 +9,7 @@ class Visits extends BaseConfig
 	public $trackingMethod  = "ip_address";
 	
 	// the session variable to check for a logged-in user ID
-	public $userSource = 'visitsUserId';
+	public $userSource = 'logged_in';
 	
 	// how many minutes before a visit counts as new instead of incrementing a previous view count
 	// set to zero to record each page view as unique (not recommended)
