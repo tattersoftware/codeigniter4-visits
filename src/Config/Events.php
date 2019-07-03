@@ -4,5 +4,6 @@ use CodeIgniter\Events\Events;
 use CodeIgniter\Config\Services;
 
 Events::on('post_controller_constructor', function () {
-	Services::visits()->record();
+	// Ignore CLI requests
+	return is_cli() ?: Services::visits()->record();
 });

@@ -87,6 +87,10 @@ class Visits
 	// add a new visit, or increase the view count on an existing one
 	public function record()
 	{
+		// Ignore CLI requests
+		if (is_cli())
+			return;
+
 		// Check for ignored AJAX requests
 		if (Services::request()->isAJAX() && $this->config->ignoreAjax)
 			return;
