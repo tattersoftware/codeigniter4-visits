@@ -7,16 +7,16 @@ class VisitsException extends FrameworkException implements ExceptionInterface
 {
 	public static function forNoTrackingMethod()
 	{
-		return new static("No tracking method selected.");
+		return new static(lang('Visits.noTrackingMethod'));
 	}
 
 	public static function forInvalidResetMinutes()
 	{
-		return new static("Minutes-to-reset must be a positive integer or zero.");
+		return new static(lang('Visits.invalidResetMinutes'));
 	}
 
 	public static function forMissingDatabaseTable(string $table)
 	{
-		return new static("Table `{$table}` missing for visit storage");
+		return new static(lang('Visits.missingDatabaseTable', [$table]));
 	}
 }
