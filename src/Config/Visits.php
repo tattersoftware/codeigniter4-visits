@@ -14,4 +14,7 @@ class Visits extends BaseConfig
 	// how many minutes before a visit counts as new instead of incrementing a previous view count
 	// set to zero to record each page view as unique (not recommended)
 	public $resetMinutes = 60;
+	
+	// Whether to ignore AJAX requests when recording
+	public $ignoreAjax = true;
 }
