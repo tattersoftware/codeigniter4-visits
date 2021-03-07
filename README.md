@@ -1,6 +1,10 @@
 # Tatter\Visits
 Lightweight traffic tracking for CodeIgniter 4
 
+[![](https://github.com/tattersoftware/codeigniter4-visits/workflows/PHPUnit/badge.svg)](https://github.com/tattersoftware/codeigniter4-visits/actions?query=workflow%3A%22PHPUnit)
+[![](https://github.com/tattersoftware/codeigniter4-visits/workflows/PHPStan/badge.svg)](https://github.com/tattersoftware/codeigniter4-visits/actions?query=workflow%3A%22PHPStan)
+[![Coverage Status](https://coveralls.io/repos/github/tattersoftware/codeigniter4-visits/badge.svg?branch=develop)](https://coveralls.io/github/tattersoftware/codeigniter4-visits?branch=develop)
+
 ## Quick Start
 
 1. Install with Composer: `> composer require tatter/visits`
@@ -23,20 +27,6 @@ Or, install manually by downloading the source files and adding the directory to
 Once the files are downloaded and included in the autoload, run any library migrations
 to ensure the database is setup correctly:
 * `> php spark migrate -all`
-
-**Pro Tip:** You can add the spark command to your composer.json to ensure your database is
-always current with the latest release:
-```
-{
-	...
-    "scripts": {
-        "post-update-cmd": [
-            "@composer dump-autoload",
-            "php spark migrate -all"
-        ]
-    },
-	...
-```
 
 ## Configuration (optional)
 
