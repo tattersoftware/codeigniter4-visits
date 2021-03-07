@@ -1,20 +1,20 @@
 <?php namespace Tatter\Visits\Config;
 
-use CodeIgniter\Config\BaseService;
+use Config\Services as BaseServices;
+use Tatter\Visits\Config\Visits as VisitsConfig;
+use Tatter\Visits\Visits;
 
-class Services extends BaseService
+class Services extends BaseServices
 {
-    public static function visits(BaseConfig $config = null, bool $getShared = true)
-    {
-		if ($getShared):
+	public static function visits(VisitsConfig $config = null, bool $getShared = true)
+	{
+		if ($getShared)
+		{
 			return static::getSharedInstance('visits', $config);
-		endif;
+		}
 
-		// If no config was injected then load one
-		// Prioritizes app/Config if found
-		if (empty($config))
-			$config = config('Visits');
+		$config = $config ?? config('Visits');
 
-		return new \Tatter\Visits\Visits($config);
+		return new Visits($config);
 	}
 }
