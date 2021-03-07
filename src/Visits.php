@@ -27,6 +27,8 @@
 
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Config\Services;
+use CodeIgniter\Database\ConnectionInterface;
+use Tatter\Visits\Config\Visits as VisitsConfig;
 use Tatter\Visits\Entities\Visit;
 use Tatter\Visits\Models\VisitModel;
 use Tatter\Visits\Exceptions\VisitsException;
@@ -39,7 +41,7 @@ class Visits
 	/**
 	 * Our configuration instance.
 	 *
-	 * @var \Tatter\Visits\Config\Visits
+	 * @var VisitsConfig
 	 */
 	protected $config;
 
@@ -58,7 +60,7 @@ class Visits
 	protected $session;
 
 	// initiate library, check for existing session
-	public function __construct(BaseConfig $config, $db = null)
+	public function __construct(VisitsConfig $config, $db = null)
 	{
 		// ignore CLI requests
 		if (is_cli())
