@@ -13,7 +13,6 @@ parameters:
 		- '#Access to protected property .+\\[A-Za-z]+Model::\$[A-Za-z]+#'
 		- '#Access to an undefined property CodeIgniter\\Session\\Session::\$session_id#'
 		- '#Call to an undefined static method Config\\Services::[A-Za-z]+\(\)#'
-		- '#Unsafe usage of new static\(\)*#'
 	universalObjectCratesClasses:
 		- CodeIgniter\Entity
 		- Faker\Generator

@@ -36,6 +36,10 @@
 		</testsuite>
 	</testsuites>
 
+	<listeners>
+		<listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+	</listeners>
+
 	<logging>
 		<testdoxHtml outputFile="build/phpunit/testdox.html"/>
 		<testdoxText outputFile="build/phpunit/testdox.txt"/>
