@@ -6,9 +6,11 @@ class VisitModel extends Model
 {
 	protected $table      = 'visits';
 	protected $primaryKey = 'id';
+	protected $returnType = 'Tatter\Visits\Entities\Visit';
 
-	protected $returnType     = 'Tatter\Visits\Entities\Visit';
+	protected $useTimestamps  = true;
 	protected $useSoftDeletes = false;
+	protected $skipValidation = false;
 
 	protected $allowedFields = [
 		'session_id',
@@ -26,13 +28,8 @@ class VisitModel extends Model
 		'fragment',
 	];
 
-	protected $useTimestamps = true;
-
-	protected $validationRules    = [
+	protected $validationRules = [
 		'host' => 'required',
 		'path' => 'required',
 	];
-	protected $validationMessages = [];
-	protected $skipValidation     = false;
-
 }
