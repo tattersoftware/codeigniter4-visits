@@ -6,6 +6,9 @@ use CodeIgniter\Config\BaseConfig;
 
 class Visits extends BaseConfig
 {
+    // Enable tracking in all controllers using the post_controller_constructor event
+    public $trackAllPages = true;
+
     /**
      * Metric for tracking a unique visitor
      *
@@ -40,4 +43,7 @@ class Visits extends BaseConfig
      * @var bool
      */
     public $ignoreAjax = true;
+
+    // Exclude uris from tracking. Accept regex values.
+    public $excludeUris = array();
 }
