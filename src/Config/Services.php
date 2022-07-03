@@ -13,7 +13,7 @@ class Services extends BaseServices
 			return static::getSharedInstance('visits', $config);
 		}
 
-		$config = $config ?? config('Visits');
+		$config ??= config('Visits');
 
 		return new Visits($config);
 	}

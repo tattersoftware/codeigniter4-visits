@@ -1,5 +1,6 @@
 <?php namespace Tatter\Visits;
 
+use CodeIgniter\Session\Session;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Database\ConnectionInterface;
@@ -25,11 +26,11 @@ class Visits
 	protected $db;
 
 	/**
-	 * The active user session, for session data and tracking.
-	 *
-	 * @var \CodeIgniter\Session\Session
-	 */
-	protected $session;
+  * The active user session, for session data and tracking.
+  *
+  * @var Session
+  */
+ protected $session;
 
 	// initiate library, check for existing session
 	public function __construct(VisitsConfig $config, $db = null)

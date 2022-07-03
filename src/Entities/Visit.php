@@ -13,14 +13,7 @@ class Visit extends Entity
 	// magic IP string/long converters
 	public function setIpAddress($ipAddress)
 	{
-		if ($long = ip2long($ipAddress))
-		{
-			$this->attributes['ip_address'] = $long;
-		}
-		else
-		{
-			$this->attributes['ip_address'] = $ipAddress;
-		}
+		$this->attributes['ip_address'] = ($long = ip2long($ipAddress)) ? $long : $ipAddress;
 
 		return $this;
 	}
@@ -31,10 +24,8 @@ class Visit extends Entity
 		{
 			return long2ip($this->attributes['ip_address']);
 		}
-		else
-		{
-			return $this->attributes['ip_address'];
-		}
+
+        return $this->attributes['ip_address'];
 	}
 
 	// search for a visit with similar characteristics to the current one
@@ -54,13 +45,12 @@ class Visit extends Entity
 		$visits = new VisitModel();
 		// check for matching components within the last resetMinutes
 		$since   = date('Y-m-d H:i:s', strtotime('-' . $resetMinutes . ' minutes'));
-		$similar = $visits->where('host', $this->host)
+
+		return $visits->where('host', $this->host)
 			->where('path', $this->path)
 			->where('query', (string)$this->query)
 			->where($trackingMethod, $this->{$trackingMethod})
 			->where('created_at >=', $since)
 			->first();
-
-		return $similar;
 	}
 }
