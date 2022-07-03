@@ -5,5 +5,5 @@ use Config\Services;
 
 Events::on('post_controller_constructor', function () {
 	// Ignore CLI requests
-	return is_cli() ?: Services::visits()->record();
+	return is_cli() ?: service('visits')->record();
 });
