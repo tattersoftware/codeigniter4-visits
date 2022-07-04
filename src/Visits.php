@@ -89,13 +89,12 @@ class Visits
         $visit->fill(parse_url(current_url()));
 
         // Check if URI has been whitelisted from Visit check
-        if ($exclude_uris = $this->config->excludeUris) {
-            foreach ($exclude_uris as $excluded) {
-                if (url_is($excluded)) {
-                    return $this;
-                }
+        foreach ($this->config->excludeUris as $excluded) {
+            if (url_is($excluded)) {
+                return $this;
             }
         }
+
         // add session/server specifics
         $visit->session_id = $this->session->session_id;
         $visit->user_id    = $this->session->{$this->config->userSource} ?? null; // @phpstan-ignore-line
