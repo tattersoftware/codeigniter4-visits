@@ -2,7 +2,6 @@
 
 namespace Tatter\Visits;
 
-use CodeIgniter\Config\Services;
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Session\Session;
 use Tatter\Visits\Config\Visits as VisitsConfig;
@@ -45,7 +44,7 @@ class Visits
         $this->config = $config;
 
         // initiate the Session library
-        $this->session = Services::session();
+        $this->session = service('session');
 
         // If no db connection passed in, use the default database group.
         $this->db = db_connect($db);
@@ -78,11 +77,18 @@ class Visits
         }
 
         // Check for ignored AJAX requests
-        if (Services::request()->isAJAX() && $this->config->ignoreAjax) {
+        if (service('request')->isAJAX() && $this->config->ignoreAjax) {
             return;
         }
 
-        $visits = new VisitModel();
+        // Check if URI has been whitelisted from Visit check
+        foreach ($this->config->excludeUris as $excluded) {
+            if (url_is($excluded)) {
+                return $this;
+            }
+        }
+
+        $visits = model(VisitModel::class);
         $visit  = new Visit();
 
         // start the object with parsed URL components (https://secure.php.net/manual/en/function.parse-url.php)

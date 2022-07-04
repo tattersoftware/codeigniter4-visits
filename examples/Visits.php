@@ -20,6 +20,12 @@ use Tatter\Visits\Config\Visits as BaseConfig;
 class Visits extends BaseConfig
 {
     /**
+     * Whether to enable tracking in all controllers using
+     * the post_controller_constructor event.
+     */
+    public bool $trackAllPages = true;
+
+    /**
      * Metric for tracking a unique visitor
      *
      * @var 'ip_address'|'session_id'|'user_id'
@@ -53,4 +59,12 @@ class Visits extends BaseConfig
      * @var bool
      */
     public $ignoreAjax = true;
+
+    /**
+     * URIs to exclude from tracking.
+     * Accepts regex values.
+     *
+     * @var string[]
+     */
+    public array $excludeUris = [];
 }
