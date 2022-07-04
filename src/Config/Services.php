@@ -1,4 +1,6 @@
-<?php namespace Tatter\Visits\Config;
+<?php
+
+namespace Tatter\Visits\Config;
 
 use Config\Services as BaseServices;
 use Tatter\Visits\Config\Visits as VisitsConfig;
@@ -6,15 +8,14 @@ use Tatter\Visits\Visits;
 
 class Services extends BaseServices
 {
-	public static function visits(VisitsConfig $config = null, bool $getShared = true)
-	{
-		if ($getShared)
-		{
-			return static::getSharedInstance('visits', $config);
-		}
+    public static function visits(?VisitsConfig $config = null, bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('visits', $config);
+        }
 
-		$config = $config ?? config('Visits');
+        $config ??= config('Visits');
 
-		return new Visits($config);
-	}
+        return new Visits($config);
+    }
 }
