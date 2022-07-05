@@ -1,7 +1,11 @@
 <?php
 
-namespace Tatter\Visits;
+namespace Tatter\Visits\Filters;
 
+use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Session\Session;
 use Tatter\Visits\Config\Visits as VisitsConfig;
@@ -9,67 +13,50 @@ use Tatter\Visits\Entities\Visit;
 use Tatter\Visits\Exceptions\VisitsException;
 use Tatter\Visits\Models\VisitModel;
 
-class Visits
+/**
+ * Visits Filter
+ *
+ * Records visits for matching routes.
+ */
+class VisitsFilter implements FilterInterface
 {
     /**
-     * Our configuration instance.
+     * @codeCoverageIgnore
      *
-     * @var VisitsConfig
+     * @param mixed|null $arguments
      */
-    protected $config;
-
-    /**
-     * The main database connection, needed to store records.
-     *
-     * @var ConnectionInterface
-     */
-    protected $db;
-
-    /**
-     * The active user session, for session data and tracking.
-     *
-     * @var Session
-     */
-    protected $session;
-
-    // initiate library, check for existing session
-    public function __construct(VisitsConfig $config, $db = null)
+    public function before(RequestInterface $request, $arguments = null): void
     {
-        // ignore CLI requests
-        if (is_cli()) {
+    }
+
+    /**
+     * Gathers the route-specific assets and adds their tags to the response.
+     *
+     * @param class-string<Bundle>[]|null $arguments Additional Bundle classes
+     */
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
+    {
+        // Ignore irrelevent responses
+        if ($response instanceof RedirectResponse || empty($response->getBody())) {
             return;
         }
 
-        // save configuration
-        $this->config = $config;
-
-        // initiate the Session library
-        $this->session = service('session');
-
-        // If no db connection passed in, use the default database group.
-        $this->db = db_connect($db);
-
-        /**
-         * @phpstan-ignore-next-line
-         * @psalm-suppress InaccessibleProperty
-         */
-        $table = model(VisitModel::class)->table;
-        if (! $this->db->tableExists($table)) {
-            throw VisitsException::forMissingDatabaseTable($table);
+        // Check CLI separately for coverage
+        if (is_cli() && ENVIRONMENT !== 'testing') {
+            return; // @codeCoverageIgnore
         }
 
-        // @phpstan-ignore-next-line
-        if (empty($this->config->trackingMethod)) {
-            throw VisitsException::forNoTrackingMethod();
-        }
-
-        if (! is_numeric($this->config->resetMinutes)) {
-            throw VisitsException::forInvalidResetMinutes();
+        // Only run on HTML content
+        if (strpos($response->getHeaderLine('Content-Type'), 'html') === false) {
+            return;
         }
     }
 
-    // add a new visit, or increase the view count on an existing one
-    public function record()
+    /**
+     * Records a visit, either adding a new row or
+     * increasing the view count on an existing one.
+     */
+    final protected function record()
     {
         // Ignore CLI requests
         if (is_cli()) {

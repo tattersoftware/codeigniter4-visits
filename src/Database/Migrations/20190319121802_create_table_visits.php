@@ -4,7 +4,7 @@ namespace Tatter\Visits\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Migration_create_table_visits extends Migration
+class CreateTableVisits extends Migration
 {
     public function up()
     {
