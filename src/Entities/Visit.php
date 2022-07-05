@@ -3,7 +3,6 @@
 namespace Tatter\Visits\Entities;
 
 use CodeIgniter\Entity\Entity;
-use Tatter\Visits\Models\VisitModel;
 
 class Visit extends Entity
 {
@@ -12,20 +11,37 @@ class Visit extends Entity
         'verified_at',
     ];
 
-    // magic IP string/long converters
-    public function setIpAddress($ipAddress)
+    /**
+     * Converts string IP addresses to their database integer format.
+     *
+     * @param int|string|null $ipAddress
+     */
+    public function setIpAddress($ipAddress): void
     {
-        $this->attributes['ip_address'] = ($long = ip2long($ipAddress)) ? $long : $ipAddress;
+        if (is_string($ipAddress)) {
+            $this->attributes['ip_address'] = ip2long($ipAddress) ?: null;
 
-        return $this;
+            return;
+        }
+
+        if (is_int($ipAddress) && long2ip($ipAddress)) {
+            $this->attributes['ip_address'] = $ipAddress;
+
+            return;
+        }
+
+        $this->attributes['ip_address'] = null;
     }
 
-    public function getIpAddress(string $format = 'long')
+    /**
+     * Converts integer IP addresses to their human pointed format.
+     */
+    public function getIpAddress(): ?string
     {
-        if ($format === 'string') {
+        if (is_int($this->attributes['ip_address'])) {
             return long2ip($this->attributes['ip_address']);
         }
 
-        return $this->attributes['ip_address'];
+        return null;
     }
 }
