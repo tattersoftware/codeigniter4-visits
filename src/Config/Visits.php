@@ -3,9 +3,20 @@
 namespace Tatter\Visits\Config;
 
 use CodeIgniter\Config\BaseConfig;
+use Tatter\Visits\Interfaces\Transformer;
 
 class Visits extends BaseConfig
 {
+    /**
+     * Transformers to apply (in order) before
+     * recording the visit data.
+     *
+     * @see VisitModel::applyTransformations()
+     *
+     * @var class-string<Transformer>[]
+     */
+    public array $transformers = [];
+
     /**
      * Whether to enable tracking in all controllers using
      * the post_controller_constructor event.
