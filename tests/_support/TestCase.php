@@ -17,6 +17,13 @@ abstract class TestCase extends CIUnitTestCase
      */
     protected $namespace;
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        helper(['auth']);
+    }
+
     protected function tearDown(): void
     {
         parent::tearDown();

@@ -10,6 +10,20 @@ class Visit extends Entity
         'created_at',
         'verified_at',
     ];
+    protected $casts = [
+        'session_id' => 'string',
+        'user_id'    => '?int',
+        'user_agent' => 'string',
+        'scheme'     => 'string',
+        'host'       => 'string',
+        'port'       => 'string',
+        'user'       => 'string',
+        'pass'       => 'string',
+        'path'       => 'string',
+        'query'      => 'string',
+        'fragment'   => 'string',
+        'views'      => 'int',
+    ];
 
     /**
      * Converts string IP addresses to their database integer format.

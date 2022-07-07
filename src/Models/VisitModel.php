@@ -2,6 +2,7 @@
 
 namespace Tatter\Visits\Models;
 
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 use Faker\Generator;
@@ -32,6 +33,30 @@ class VisitModel extends Model
         'host' => 'required',
         'path' => 'required',
     ];
+
+    /**
+     * Parses the current URL and adds relevant
+     * Request info to create an Visit.
+     */
+    public function makeFromRequest(IncomingRequest $request): Visit
+    {
+        // Get the URI of the current Request
+        $uri = current_url(true, $request);
+
+        return new Visit([
+            'scheme'     => $uri->getScheme(),
+            'host'       => $uri->getHost(),
+            'port'       => $uri->getPort(),
+            'user'       => $uri->showPassword(false)->getUserInfo(),
+            'path'       => $uri->getPath(),
+            'query'      => $uri->getQuery(),
+            'fragment'   => $uri->getFragment(),
+            'session_id' => session_id(),
+            'user_id'    => user_id(),
+            'user_agent' => $request->getServer('HTTP_USER_AGENT') ?? '',
+            'ip_address' => $request->getServer('REMOTE_ADDR'),
+        ]);
+    }
 
     /**
      * Finds the first visit with similar characteristics
