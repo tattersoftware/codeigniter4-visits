@@ -90,18 +90,18 @@ class VisitModel extends Model
     {
         return new Visit([
             'session_id' => $faker->md5,
-            'user_id'    => mt_rand(1, 100),
+            'user_id'    => random_int(1, 100),
             'ip_address' => ip2long($faker->ipv4),
             'user_agent' => $faker->userAgent,
-            'views'      => mt_rand(0, 4),
-            'scheme'     => mt_rand(0, 3) ? 'https' : 'http',
+            'views'      => random_int(0, 4),
+            'scheme'     => random_int(0, 3) ? 'https' : 'http',
             'host'       => $faker->domainName,
             'port'       => '',
             'user'       => '',
             'pass'       => '',
             'path'       => implode('/', $faker->words),
-            'query'      => mt_rand(0, 5) ? '' : 'q=' . $faker->word,
-            'fragment'   => mt_rand(0, 5) ? '' : '#' . $faker->word,
+            'query'      => random_int(0, 5) ? '' : 'q=' . $faker->word,
+            'fragment'   => random_int(0, 5) ? '' : '#' . $faker->word,
         ]);
     }
 }
