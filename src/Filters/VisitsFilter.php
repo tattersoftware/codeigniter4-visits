@@ -3,14 +3,13 @@
 namespace Tatter\Visits\Filters;
 
 use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Database\ConnectionInterface;
-use CodeIgniter\Session\Session;
-use Tatter\Visits\Config\Visits as VisitsConfig;
+use RuntimeException;
+use Tatter\Visits\Config\Visits;
 use Tatter\Visits\Entities\Visit;
-use Tatter\Visits\Exceptions\VisitsException;
 use Tatter\Visits\Models\VisitModel;
 
 /**
@@ -20,85 +19,76 @@ use Tatter\Visits\Models\VisitModel;
  */
 class VisitsFilter implements FilterInterface
 {
-    /**
-     * @codeCoverageIgnore
-     *
-     * @param mixed|null $arguments
-     */
-    public function before(RequestInterface $request, $arguments = null): void
+    protected Visits $config;
+    protected VisitModel $model;
+
+    public function __construct()
     {
+        $this->config = config('Visits');
+        $this->model  = model(VisitModel::class);
     }
 
-    /**
-     * Gathers the route-specific assets and adds their tags to the response.
-     *
-     * @param class-string<Bundle>[]|null $arguments Additional Bundle classes
-     */
+    public function before(RequestInterface $request, $arguments = null): void
+    {
+        $this->record($request);
+    }
+
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null): void
     {
-        // Ignore irrelevent responses
-        if ($response instanceof RedirectResponse || empty($response->getBody())) {
+        // Ignoring redirects
+        if ($this->config->ignoreRedirects && $response instanceof RedirectResponse) {
+            return;
+        }
+        // Ignore empty responses
+        if ($this->config->requireBody && empty($response->getBody())) {
+            return;
+        }
+        // Ignore non-HTML response
+        if ($this->config->requireHtml && strpos($response->getHeaderLine('Content-Type'), 'html') === false) {
             return;
         }
 
-        // Check CLI separately for coverage
-        if (is_cli() && ENVIRONMENT !== 'testing') {
-            return; // @codeCoverageIgnore
-        }
-
-        // Only run on HTML content
-        if (strpos($response->getHeaderLine('Content-Type'), 'html') === false) {
-            return;
-        }
+        $this->record($request);
     }
 
     /**
      * Records a visit, either adding a new row or
      * increasing the view count on an existing one.
+     *
+     * @throws RuntimeException
      */
-    final protected function record()
+    final protected function record(RequestInterface $request): void
     {
-        // Ignore CLI requests
-        if (is_cli()) {
-            return;
+        if (! $request instanceof IncomingRequest) {
+            throw new RuntimeException(static::class . ' requires an IncomingRequest object.');
         }
 
-        // Check for ignored AJAX requests
-        if (service('request')->isAJAX() && $this->config->ignoreAjax) {
-            return;
+        if (is_cli() && ENVIRONMENT !== 'testing') {
+            return; // @codeCoverageIgnore
         }
 
-        // Check if URI has been whitelisted from Visit check
-        foreach ($this->config->excludeUris as $excluded) {
-            if (url_is($excluded)) {
-                return $this;
-            }
+        // Verify helper function from codeigniter4/authentication-implementation
+        if (! function_exists('user_id')) {
+            throw new RuntimeException('The necessary user_id() function was not found! Did you forget to preload your helper?');
         }
 
-        $visits = model(VisitModel::class);
-        $visit  = new Visit();
+        $visit = $this->model->makeFromRequest($request);
 
-        // start the object with parsed URL components (https://secure.php.net/manual/en/function.parse-url.php)
-        $visit->fill(parse_url(current_url()));
-
-        // add session/server specifics
-        $visit->session_id = $this->session->session_id;
-        $visit->user_id    = $this->session->{$this->config->userSource} ?? null; // @phpstan-ignore-line
-        $visit->user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-        $visit->ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
-
-        // check for an existing similar record
-        if ($similar = $visit->getSimilar($this->config->trackingMethod, $this->config->resetMinutes)) {
+        // Check for an existing similar record
+        if ($similar = $this->model->findSimilar($visit)) {
             // increment number of views and update
             $similar->views++;
-            $visits->save($similar);
+            $this->model->save($similar);
 
-            return $similar;
+            return;
         }
 
-        // create a new visit record
-        $visits->save($visit);
+        // Create a new visit record
+        if ($this->model->save($visit)) {
+            return;
+        }
 
-        return $visit;
+        $error = implode(' ', $this->model->errors());
+        throw new RuntimeException('Failed to create visit record: ' . $error);
     }
 }

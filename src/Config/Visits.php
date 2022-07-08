@@ -30,12 +30,20 @@ class Visits extends BaseConfig
     public bool $ignoreAjax = true;
 
     /**
-     * Transformers to apply (in order) before
-     * recording the visit data.
-     *
-     * @see VisitModel::applyTransformations()
-     *
-     * @var class-string<Transformer>[]
+     * Whether to ignore requests that result in a redirect response.
+     * Note: requires using the "after" filter method.
      */
-    public array $transformers = [];
+    public bool $ignoreRedirects = true;
+
+    /**
+     * Whether to ignore requests that result in an empty body.
+     * Note: requires using the "after" filter method.
+     */
+    public bool $requireBody = false;
+
+    /**
+     * Whether to ignore requests with Content Types other than HTML.
+     * Note: requires using the "after" filter method.
+     */
+    public bool $requireHtml = false;
 }

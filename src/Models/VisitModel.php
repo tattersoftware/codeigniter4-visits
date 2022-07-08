@@ -46,8 +46,8 @@ class VisitModel extends Model
         return new Visit([
             'scheme'     => $uri->getScheme(),
             'host'       => $uri->getHost(),
-            'port'       => $uri->getPort(),
-            'user'       => $uri->showPassword(false)->getUserInfo(),
+            'port'       => $uri->getPort() ?? '',
+            'user'       => $uri->showPassword(false)->getUserInfo() ?? '',
             'path'       => $uri->getPath(),
             'query'      => $uri->getQuery(),
             'fragment'   => $uri->getFragment(),
