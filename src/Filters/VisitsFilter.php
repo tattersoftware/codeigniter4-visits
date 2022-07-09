@@ -59,12 +59,12 @@ class VisitsFilter implements FilterInterface
      */
     final protected function record(RequestInterface $request): void
     {
-        if (! $request instanceof IncomingRequest) {
-            throw new RuntimeException(static::class . ' requires an IncomingRequest object.');
-        }
-
         if (is_cli() && ENVIRONMENT !== 'testing') {
             return; // @codeCoverageIgnore
+        }
+
+        if (! $request instanceof IncomingRequest) {
+            throw new RuntimeException(static::class . ' requires an IncomingRequest object.');
         }
 
         // Verify helper function from codeigniter4/authentication-implementation
@@ -72,11 +72,22 @@ class VisitsFilter implements FilterInterface
             throw new RuntimeException('The necessary user_id() function was not found! Did you forget to preload your helper?');
         }
 
+        // Use the Request to create a Visit
         $visit = $this->model->makeFromRequest($request);
+
+        // Apply any transformations
+        foreach (config('Visits')->transformers as $transformer) {
+            $visit = $transformer::transform($visit, $request);
+
+            // Check for a short-circuit
+            if ($visit === null) {
+                return;
+            }
+        }
 
         // Check for an existing similar record
         if ($similar = $this->model->findSimilar($visit)) {
-            // increment number of views and update
+            // Increment view count and update
             $similar->views++;
             $this->model->save($similar);
 
@@ -89,6 +100,7 @@ class VisitsFilter implements FilterInterface
         }
 
         $error = implode(' ', $this->model->errors());
+
         throw new RuntimeException('Failed to create visit record: ' . $error);
     }
 }

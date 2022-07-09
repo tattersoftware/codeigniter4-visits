@@ -22,6 +22,16 @@ class Visits extends BaseConfig
     public int $resetAfter = HOUR;
 
     /**
+     * Transformers to apply (in order) before
+     * recording the visit data.
+     *
+     * @see VisitModel::applyTransformations()
+     *
+     * @var class-string<Transformer>[]
+     */
+    public array $transformers = [];
+
+    /**
      * Whether to ignore AJAX requests when recording.
      * See framework User Guide for caveats.
      *
