@@ -33,6 +33,26 @@ final class FilterTest extends TestCase
         $this->seeNumRecords(1, 'visits', []);
     }
 
+    public function testIgnoresAjax(): void
+    {
+        config('Visits')->ignoreAjax = true;
+        $this->request->setHeader('X-Requested-With', 'xmlhttprequest');
+
+        $this->call();
+
+        $this->seeNumRecords(0, 'visits', []);
+    }
+
+    public function testNotIgnoresAjax(): void
+    {
+        config('Visits')->ignoreAjax = false;
+        $this->request->setHeader('X-Requested-With', 'xmlhttprequest');
+
+        $this->call();
+
+        $this->seeNumRecords(1, 'visits', []);
+    }
+
     public function testIgnoresRedirects(): void
     {
         config('Visits')->ignoreRedirects = true;

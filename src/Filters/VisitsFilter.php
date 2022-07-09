@@ -67,6 +67,11 @@ class VisitsFilter implements FilterInterface
             throw new RuntimeException(static::class . ' requires an IncomingRequest object.');
         }
 
+        // Ignore AJAX requests
+        if ($this->config->ignoreAjax && $request->isAJAX()) {
+            return;
+        }
+
         // Verify helper function from codeigniter4/authentication-implementation
         if (! function_exists('user_id')) {
             throw new RuntimeException('The necessary user_id() function was not found! Did you forget to preload your helper?');
