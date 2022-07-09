@@ -4,8 +4,11 @@ namespace Tatter\Visits\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Migration_create_table_visits extends Migration
+class CreateTableVisits extends Migration
 {
+    /**
+     * @return void
+     */
     public function up()
     {
         $fields = [
@@ -39,6 +42,9 @@ class Migration_create_table_visits extends Migration
         $this->forge->createTable('visits');
     }
 
+    /**
+     * @return void
+     */
     public function down()
     {
         $this->forge->dropTable('visits');

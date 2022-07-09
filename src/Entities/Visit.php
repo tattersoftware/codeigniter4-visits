@@ -3,7 +3,6 @@
 namespace Tatter\Visits\Entities;
 
 use CodeIgniter\Entity\Entity;
-use Tatter\Visits\Models\VisitModel;
 
 class Visit extends Entity
 {
@@ -11,45 +10,52 @@ class Visit extends Entity
         'created_at',
         'verified_at',
     ];
+    protected $casts = [
+        'session_id' => 'string',
+        'user_id'    => '?int',
+        'user_agent' => 'string',
+        'scheme'     => 'string',
+        'host'       => 'string',
+        'port'       => 'string',
+        'user'       => 'string',
+        'pass'       => 'string',
+        'path'       => 'string',
+        'query'      => 'string',
+        'fragment'   => 'string',
+        'views'      => 'int',
+    ];
 
-    // magic IP string/long converters
-    public function setIpAddress($ipAddress)
+    /**
+     * Converts string IP addresses to their database integer format.
+     *
+     * @param int|string|null $ipAddress
+     */
+    public function setIpAddress($ipAddress): void
     {
-        $this->attributes['ip_address'] = ($long = ip2long($ipAddress)) ? $long : $ipAddress;
+        if (is_string($ipAddress)) {
+            $this->attributes['ip_address'] = ip2long($ipAddress) ?: null;
 
-        return $this;
+            return;
+        }
+
+        if (is_int($ipAddress) && long2ip($ipAddress)) {
+            $this->attributes['ip_address'] = $ipAddress;
+
+            return;
+        }
+
+        $this->attributes['ip_address'] = null;
     }
 
-    public function getIpAddress(string $format = 'long')
+    /**
+     * Converts integer IP addresses to their human pointed format.
+     */
+    public function getIpAddress(): ?string
     {
-        if ($format === 'string') {
+        if (is_int($this->attributes['ip_address'])) {
             return long2ip($this->attributes['ip_address']);
         }
 
-        return $this->attributes['ip_address'];
-    }
-
-    // search for a visit with similar characteristics to the current one
-    public function getSimilar($trackingMethod, $resetMinutes = 60)
-    {
-        // required fields
-        if (empty($this->host) || empty($this->path)) {
-            return false;
-        }
-        // require tracking field
-        if (empty($this->{$trackingMethod})) {
-            return false;
-        }
-
-        $visits = new VisitModel();
-        // check for matching components within the last resetMinutes
-        $since = date('Y-m-d H:i:s', strtotime('-' . $resetMinutes . ' minutes'));
-
-        return $visits->where('host', $this->host)
-            ->where('path', $this->path)
-            ->where('query', (string) $this->query)
-            ->where($trackingMethod, $this->{$trackingMethod})
-            ->where('created_at >=', $since)
-            ->first();
+        return null;
     }
 }
