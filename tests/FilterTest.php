@@ -19,11 +19,78 @@ final class FilterTest extends TestCase
         $this->getFilterCaller(VisitsFilter::class, $position)();
     }
 
-    public function testFilterRecords(): void
+    public function testRecords(): void
     {
         $this->call();
 
         $this->seeInDatabase('visits', ['path' => '/index.php']);
+    }
+
+    public function testBeforeRecords(): void
+    {
+        $this->call('before');
+
+        $this->seeNumRecords(1, 'visits', []);
+    }
+
+    public function testIgnoresRedirects(): void
+    {
+        config('Visits')->ignoreRedirects = true;
+        $this->response                   = redirect();
+
+        $this->call();
+
+        $this->seeNumRecords(0, 'visits', []);
+    }
+
+    public function testNotIgnoresRedirects(): void
+    {
+        config('Visits')->ignoreRedirects = false;
+        $this->response                   = redirect();
+
+        $this->call();
+
+        $this->seeNumRecords(1, 'visits', []);
+    }
+
+    public function testRequiresBody(): void
+    {
+        config('Visits')->requireBody = true;
+        $this->response->setBody('');
+
+        $this->call();
+
+        $this->seeNumRecords(0, 'visits', []);
+    }
+
+    public function testNotRequiresBody(): void
+    {
+        config('Visits')->requireBody = false;
+        $this->response->setBody('');
+
+        $this->call();
+
+        $this->seeNumRecords(1, 'visits', []);
+    }
+
+    public function testRequiresHtml(): void
+    {
+        config('Visits')->requireHtml = true;
+        $this->response->setContentType('application/json');
+
+        $this->call();
+
+        $this->seeNumRecords(0, 'visits', []);
+    }
+
+    public function testNotRequiresHtml(): void
+    {
+        config('Visits')->requireHtml = false;
+        $this->response->setContentType('application/json');
+
+        $this->call();
+
+        $this->seeNumRecords(1, 'visits', []);
     }
 
     public function testAppliesTransformers(): void
