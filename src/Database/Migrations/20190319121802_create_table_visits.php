@@ -6,6 +6,9 @@ use CodeIgniter\Database\Migration;
 
 class CreateTableVisits extends Migration
 {
+    /**
+     * @return void
+     */
     public function up()
     {
         $fields = [
@@ -39,6 +42,9 @@ class CreateTableVisits extends Migration
         $this->forge->createTable('visits');
     }
 
+    /**
+     * @return void
+     */
     public function down()
     {
         $this->forge->dropTable('visits');
