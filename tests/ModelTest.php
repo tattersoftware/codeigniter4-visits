@@ -83,6 +83,16 @@ final class ModelTest extends TestCase
         }
     }
 
+    public function testMakeFromRequestUsesUserId(): void
+    {
+        service('auth')->login(42);
+
+        $result = $this->model->makeFromRequest(service('request'));
+
+        $this->assertInstanceOf(Visit::class, $result);
+        $this->assertSame(42, $result->user_id);
+    }
+
     public function testMakeFromRequestRespectsBaseUrl(): void
     {
         config('App')->baseURL   = 'http://foo.bar/folder/';
