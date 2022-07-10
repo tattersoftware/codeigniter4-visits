@@ -43,6 +43,13 @@ class VisitModel extends Model
         // Get the URI of the current Request
         $uri = current_url(true, $request);
 
+        /**
+         * Only try to identify a current user if the appropriate helper is defined
+         *
+         * @see https://codeigniter4.github.io/CodeIgniter4/extending/authentication.html
+         */
+        $userId = function_exists('user_id') ? user_id() : null;
+
         return new Visit([
             'scheme'     => $uri->getScheme(),
             'host'       => $uri->getHost(),
@@ -52,7 +59,7 @@ class VisitModel extends Model
             'query'      => $uri->getQuery(),
             'fragment'   => $uri->getFragment(),
             'session_id' => session_id(),
-            'user_id'    => user_id(),
+            'user_id'    => $userId,
             'user_agent' => $request->getServer('HTTP_USER_AGENT') ?? '',
             'ip_address' => $request->getServer('REMOTE_ADDR'),
         ]);

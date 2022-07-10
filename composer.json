@@ -20,13 +20,15 @@
     ],
     "homepage": "https://github.com/tattersoftware/codeigniter4-visits",
     "require": {
-        "php": "^7.4 || ^8.0",
-        "codeigniter4/authentication-implementation": "1.0"
+        "php": "^7.4 || ^8.0"
     },
     "require-dev": {
         "codeigniter4/framework": "^4.2",
         "tatter/imposter": "^1.0",
         "tatter/tools": "^2.0"
+    },
+    "suggest": {
+        "codeigniter4/authentication-implementation": "Required to track authenticated users."
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
