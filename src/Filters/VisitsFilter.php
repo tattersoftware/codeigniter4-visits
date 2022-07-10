@@ -73,8 +73,8 @@ class VisitsFilter implements FilterInterface
         }
 
         // Verify helper function from codeigniter4/authentication-implementation
-        if (! function_exists('user_id')) {
-            throw new RuntimeException('The necessary user_id() function was not found! Did you forget to preload your helper?');
+        if (! function_exists('user_id') && config('Visits')->trackingMethod === 'user_id') {
+            throw new RuntimeException('The user_id() function must be available to track by user ID.'); // @codeCoverageIgnore
         }
 
         // Use the Request to create a Visit
