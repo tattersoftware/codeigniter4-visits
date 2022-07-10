@@ -5,6 +5,7 @@ use CodeIgniter\Test\FilterTestTrait;
 use Tatter\Visits\Filters\VisitsFilter;
 use Tests\Support\TestCase;
 use Tests\Support\Transformers\BananaTransformer;
+use Tests\Support\Transformers\DecepticonTransformer;
 
 /**
  * @internal
@@ -24,6 +25,17 @@ final class FilterTest extends TestCase
         $this->call();
 
         $this->seeInDatabase('visits', ['path' => '/index.php']);
+    }
+
+    public function testIncrements(): void
+    {
+        config('Visits')->trackingMethod = 'user_id';
+        service('auth')->login(42);
+
+        $this->call();
+        $this->call();
+
+        $this->seeInDatabase('visits', ['views' => 2]);
     }
 
     public function testBeforeRecords(): void
@@ -123,5 +135,41 @@ final class FilterTest extends TestCase
             'host'  => 'banana',
             'query' => 'banana',
         ]);
+    }
+
+    public function testShortCircuitsTransformers(): void
+    {
+        config('Visits')->transformers = [
+            DecepticonTransformer::class,
+            BananaTransformer::class,
+        ];
+
+        $this->call();
+
+        $this->seeNumRecords(0, 'visits', []);
+    }
+
+    public function testRequiresIncomingRequest(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(VisitsFilter::class . ' requires an IncomingRequest object.');
+
+        $this->request = service('clirequest');
+
+        $this->call();
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState  disabled
+     */
+    public function testRequiresValidVisit(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Failed to create visit record: The host field is required.');
+
+        config('App')->baseURL = '0';
+
+        $this->call();
     }
 }
