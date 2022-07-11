@@ -27,11 +27,38 @@ final class FilterTest extends TestCase
         $this->seeInDatabase('visits', ['path' => '/index.php']);
     }
 
-    public function testIncrements(): void
+    public function testIpAddressIncrements(): void
+    {
+        config('Visits')->trackingMethod = 'ip_address';
+        $_SERVER['REMOTE_ADDR']          = '192.168.0.1';
+        $this->request                   = single_service('request');
+
+        $this->call();
+        $this->call();
+
+        $this->seeInDatabase('visits', ['views' => 2]);
+
+        unset($_SERVER['REMOTE_ADDR']);
+    }
+
+    public function testUserIdIncrements(): void
     {
         config('Visits')->trackingMethod = 'user_id';
         service('auth')->login(42);
 
+        $this->call();
+        $this->call();
+
+        $this->seeInDatabase('visits', ['views' => 2]);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testSessionIdIncrements(): void
+    {
+        config('Visits')->trackingMethod = 'session_id';
+        session_id('abc123');
         $this->call();
         $this->call();
 
