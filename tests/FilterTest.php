@@ -52,6 +52,19 @@ final class FilterTest extends TestCase
         $this->seeInDatabase('visits', ['views' => 2]);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
+    public function testSessionIdIncrements(): void
+    {
+        config('Visits')->trackingMethod = 'session_id';
+        session_id('abc123');
+        $this->call();
+        $this->call();
+
+        $this->seeInDatabase('visits', ['views' => 2]);
+    }
+
     public function testBeforeRecords(): void
     {
         $this->call('before');
