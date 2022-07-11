@@ -125,6 +125,7 @@ final class ModelTest extends TestCase
         $result = $this->model->makeFromRequest(single_service('request'));
 
         $this->assertSame($expected, $result->ipAddress);
+        $this->assertSame(ip2long($expected), $result->toRawArray()['ip_address']);
 
         unset($_SERVER['REMOTE_ADDR']);
     }

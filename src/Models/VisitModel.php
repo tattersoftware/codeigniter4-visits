@@ -72,7 +72,7 @@ class VisitModel extends Model
     public function findSimilar(Visit $visit): ?Visit
     {
         $config   = config('Visits');
-        $tracking = $visit->{$config->trackingMethod};
+        $tracking = $visit->toRawArray()[$config->trackingMethod] ?? null;
 
         // Required fields
         if (empty($tracking) || empty($visit->host) || empty($visit->path)) {
