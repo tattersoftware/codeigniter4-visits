@@ -129,4 +129,18 @@ final class ModelTest extends TestCase
 
         unset($_SERVER['REMOTE_ADDR']);
     }
+
+    /**
+     * @see https://github.com/tattersoftware/codeigniter4-visits/issues/23
+     */
+    public function testAllowsLongSessionIds(): void
+    {
+        $expected = 'Who shall call them from the grey twilight the forgotten people The heir of him to whom the oath they swore';
+        fake(VisitModel::class, ['session_id' => $expected]);
+
+        $result = $this->model->first();
+
+        $this->assertInstanceOf(Visit::class, $result);
+        $this->assertSame($expected, $result->session_id);
+    }
 }
