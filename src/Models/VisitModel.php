@@ -30,8 +30,9 @@ class VisitModel extends Model
         'fragment',
     ];
     protected $validationRules = [
-        'host' => 'required',
-        'path' => 'required',
+        'host'       => 'required',
+        'path'       => 'required',
+        'session_id' => 'permit_empty|max_length[127]',
     ];
 
     /**
