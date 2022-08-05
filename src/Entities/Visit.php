@@ -52,7 +52,7 @@ class Visit extends Entity
      */
     public function getIpAddress(): ?string
     {
-        if (is_int($this->attributes['ip_address'])) {
+        if (is_numeric($this->attributes['ip_address'])) {
             return long2ip($this->attributes['ip_address']);
         }
 
