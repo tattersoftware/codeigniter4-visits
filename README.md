@@ -124,7 +124,7 @@ class Visits extends BaseConfig
 
 ## User tracking
 
-`Visits` will use any Composer package that provides `codeigniter4/authentication-implementation`
+**Visits** will use any Composer package that provides `codeigniter4/authentication-implementation`
 to identify an active user. It is not legal nor advisable to track user traffic in all cases,
 so make sure you are configuring your project appropriately for local laws and regulations.
 Filtering and anonymizing data to meet tighter specifications can be accomplished with Transformers.
