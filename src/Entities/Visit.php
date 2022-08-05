@@ -38,7 +38,7 @@ class Visit extends Entity
             return;
         }
 
-        if (is_numeric($ipAddress) && long2ip($ipAddress)) {
+        if (is_int($ipAddress) && long2ip($ipAddress)) {
             $this->attributes['ip_address'] = $ipAddress;
 
             return;
