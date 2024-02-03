@@ -45,7 +45,7 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::DEAD_CODE,
         LevelSetList::UP_TO_PHP_74,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
-        //PHPUnitSetList::PHPUNIT_100,
+        // PHPUnitSetList::PHPUNIT_100,
     ]);
 
     $rectorConfig->parallel();

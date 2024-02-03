@@ -9,7 +9,7 @@ use Tests\Support\TestCase;
 final class EntityTest extends TestCase
 {
     /**
-     * @dataProvider ipAddressProvider
+     * @dataProvider provideIpAddressCasts
      *
      * @param mixed $input
      */
@@ -25,7 +25,7 @@ final class EntityTest extends TestCase
         $this->assertSame($retrieved, $result);
     }
 
-    public function ipAddressProvider(): array
+    public static function provideIpAddressCasts(): iterable
     {
         return [
             ['127.0.0.1', 2_130_706_433, '127.0.0.1'],

@@ -1,6 +1,5 @@
 <?php
 
-use CodeIgniter\Config\Services;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Tatter\Visits\Entities\Visit;
 use Tatter\Visits\Models\VisitModel;
@@ -23,7 +22,7 @@ final class ModelTest extends TestCase
     }
 
     /**
-     * @dataProvider findSimilarNullProvider
+     * @dataProvider provideFindSimilarNull
      */
     public function testFindSimilarNull(string $field): void
     {
@@ -39,7 +38,7 @@ final class ModelTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function findSimilarNullProvider(): array
+    public static function provideFindSimilarNull(): iterable
     {
         return [
             ['host'],
@@ -94,26 +93,26 @@ final class ModelTest extends TestCase
         $this->assertSame(42, $result->user_id);
     }
 
-/*
-    Temporarily disabled because config injection isn't working anymore
+    /*
+        Temporarily disabled because config injection isn't working anymore
 
-    public function testMakeFromRequestRespectsBaseUrl(): void
-    {
-        $config = config('App');
+        public function testMakeFromRequestRespectsBaseUrl(): void
+        {
+            $config = config('App');
 
-        $config->baseURL   = 'http://foo.bar/folder/';
-        $config->indexPage = '';
+            $config->baseURL   = 'http://foo.bar/folder/';
+            $config->indexPage = '';
 
-        $request = service('request', $config)->setPath('fruits/banana#ripe');
+            $request = service('request', $config)->setPath('fruits/banana#ripe');
 
-        $result = $this->model->makeFromRequest($request);
+            $result = $this->model->makeFromRequest($request);
 
-        $this->assertSame('http', $result->scheme);
-        $this->assertSame('foo.bar', $result->host);
-        $this->assertSame('/folder/fruits/banana', $result->path);
-        $this->assertSame('ripe', $result->fragment);
-    }
-*/
+            $this->assertSame('http', $result->scheme);
+            $this->assertSame('foo.bar', $result->host);
+            $this->assertSame('/folder/fruits/banana', $result->path);
+            $this->assertSame('ripe', $result->fragment);
+        }
+    */
 
     public function testMakeFromRequestIgnoresPass(): void
     {

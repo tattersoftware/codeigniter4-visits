@@ -176,28 +176,28 @@ final class FilterTest extends TestCase
         $this->seeNumRecords(0, 'visits', []);
     }
 
-/*
-    Temporarily disabled because request handling doesn't work like this anymore
+    /*
+        Temporarily disabled because request handling doesn't work like this anymore
 
-    public function testRequiresIncomingRequest(): void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage(VisitsFilter::class . ' requires an IncomingRequest object.');
+        public function testRequiresIncomingRequest(): void
+        {
+            $this->expectException(RuntimeException::class);
+            $this->expectExceptionMessage(VisitsFilter::class . ' requires an IncomingRequest object.');
 
-        $this->request = service('clirequest');
+            $this->request = service('clirequest');
 
-        $this->call();
-    }
+            $this->call();
+        }
 
-    // Temporarily disabled because config injection isn't working anymore
-    public function testRequiresValidVisit(): void
-    {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Failed to create visit record: The host field is required.');
+        // Temporarily disabled because config injection isn't working anymore
+        public function testRequiresValidVisit(): void
+        {
+            $this->expectException(RuntimeException::class);
+            $this->expectExceptionMessage('Failed to create visit record: The host field is required.');
 
-        config('App')->baseURL = '0';
+            config('App')->baseURL = '0';
 
-        $this->call();
-    }
-*/
+            $this->call();
+        }
+    */
 }
