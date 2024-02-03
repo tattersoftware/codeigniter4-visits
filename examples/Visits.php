@@ -20,51 +20,52 @@ use Tatter\Visits\Config\Visits as BaseConfig;
 class Visits extends BaseConfig
 {
     /**
-     * Whether to enable tracking in all controllers using
-     * the post_controller_constructor event.
-     */
-    public bool $trackAllPages = true;
-
-    /**
-     * Metric for tracking a unique visitor
+     * Database field for tracking a unique visitor
      *
      * @var 'ip_address'|'session_id'|'user_id'
      */
-    public $trackingMethod = 'ip_address';
+    public string $trackingMethod = 'ip_address';
 
     /**
-     * Session variable to check for a logged-in user ID
-     *
-     * @deprecated Next version will rely on codeigniter4/authentication-implementation
-     *
-     * @var string
-     */
-    public $userSource = 'logged_in';
-
-    /**
-     * Number of minutes before a visit counts as new
+     * Number of seconds before a visit counts as new
      * instead of incrementing a previous view count.
      * Set to zero to record each page view as unique (not recommended).
-     *
-     * @var int
      */
-    public $resetMinutes = 60;
+    public int $resetAfter = HOUR;
+
+    /**
+     * Transformers to apply (in order) before
+     * recording the visit data.
+     *
+     * @see VisitModel::applyTransformations()
+     *
+     * @var class-string<Transformer>[]
+     */
+    public array $transformers = [];
 
     /**
      * Whether to ignore AJAX requests when recording.
      * See framework User Guide for caveats.
      *
      * @see https://www.codeigniter.com/user_guide/general/ajax.html
-     *
-     * @var bool
      */
-    public $ignoreAjax = true;
+    public bool $ignoreAjax = true;
 
     /**
-     * URIs to exclude from tracking.
-     * Accepts regex values.
-     *
-     * @var string[]
+     * Whether to ignore requests that result in a redirect response.
+     * Note: requires using the "after" filter method.
      */
-    public array $excludeUris = [];
+    public bool $ignoreRedirects = true;
+
+    /**
+     * Whether to ignore requests that result in an empty body.
+     * Note: requires using the "after" filter method.
+     */
+    public bool $requireBody = false;
+
+    /**
+     * Whether to ignore requests with Content Types other than HTML.
+     * Note: requires using the "after" filter method.
+     */
+    public bool $requireHtml = false;
 }
