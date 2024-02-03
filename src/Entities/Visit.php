@@ -4,6 +4,9 @@ namespace Tatter\Visits\Entities;
 
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int $views
+ */
 class Visit extends Entity
 {
     protected $dates = [

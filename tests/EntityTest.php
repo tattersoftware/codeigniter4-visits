@@ -41,14 +41,14 @@ final class EntityTest extends TestCase
     public function testIpAddressHandlesStrings(): void
     {
         $visit = new Visit();
-        $visit->setAttributes([
+        $visit->injectRawData([
             'ip_address' => '2130706433',
         ]);
 
         $result = $visit->getIpAddress();
         $this->assertSame('127.0.0.1', $result);
 
-        $visit->setAttributes([
+        $visit->injectRawData([
             'ip_address' => 'foo',
         ]);
         $this->assertNull($visit->getIpAddress());
