@@ -26,7 +26,7 @@
         "codeigniter4/framework": "^4.2",
         "tatter/imposter": "^1.0",
         "tatter/tools": "^2.0",
-        "kint-php/kint": "^5.1"
+        "kint-php/kint": "^5.1 || ^6.0"
     },
     "suggest": {
         "codeigniter4/authentication-implementation": "Required to track authenticated users."
